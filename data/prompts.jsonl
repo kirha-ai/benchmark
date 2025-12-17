@@ -1,0 +1,100 @@
+{ "id": 1, "prompt": "list Construction and Real Estate latest 10 tenders in France and Germany above 10m euros.", "vertical": "company" }
+{ "id": 2, "prompt": "Show the volume trend for OpenSea over the past month.", "vertical": "crypto" }
+{ "id": 3, "prompt": "Give me the last Bitcoin news about the top 3 Bitcoin company holders.", "vertical": "crypto" }
+{ "id": 4, "prompt": "Find 5 contributors to C++ OCR projects.", "vertical": "company" }
+{ "id": 5, "prompt": "Summarize 5 latest Nvidia SEC filings.", "vertical": "company" }
+{ "id": 6, "prompt": "Find latest fundraising in crypto.", "vertical": "crypto" }
+{ "id": 7, "prompt": "List the 5 latest authors of research papers on RAG.", "vertical": "company" }
+{ "id": 8, "prompt": "find top 10 wallets that related with Tornado Cash (contract 0x910Cbd523D972eb0a6f4cAe4618aD62622b39DbF).", "vertical": "crypto" }
+{ "id": 9, "prompt": "Check the delay for flight U25112 on 7 December 2025.", "vertical": "insurance" }
+{ "id": 10, "prompt": "Insurance Risk related to Weather at Valence (spain), the 29 october 2024.", "vertical": "insurance" }
+{ "id": 11, "prompt": "Get P/S and P/F ratios of Ethereum", "vertical": "crypto" }
+{ "id": 12, "prompt": "Calculate PnL of vitalik.eth across all EVM chains.", "vertical": "crypto" }
+{ "id": 13, "prompt": "Summarize latest Apple earnings transcript.", "vertical": "company" }
+{ "id": 14, "prompt": "Fetch current circulating supply of $EIGEN.", "vertical": "crypto" }
+{ "id": 15, "prompt": "extract emails of trending Rust contributors.", "vertical": "company" }
+{ "id": 16, "prompt": "find software engineers working at companies behind latest patents in Machine Learning.", "vertical": "company" }
+{ "id": 17, "prompt": "Search for senior engineers in San Francisco working at companies with 100-500 employees.", "vertical": "company" }
+{ "id": 18, "prompt": "Summarize recent 8-K sec filings from Apple.", "vertical": "company" }
+{ "id": 19, "prompt": "Scan 58.22.76.207 for threats.", "vertical": "cybersec" }
+{ "id": 20, "prompt": "Current TVL of Aave?", "vertical": "crypto" }
+{ "id": 21, "prompt": "Crypto narratives performance over the last week", "vertical": "crypto" }
+{ "id": 22, "prompt": "Show the Q3 2025 gross rate of construction permits issues in France.", "vertical": "company" }
+{ "id": 23, "prompt": "How many active users does Ethereum have?", "vertical": "crypto" }
+{ "id": 24, "prompt": "What is the stablecoin dominance on Arbitrum?", "vertical": "crypto" }
+{ "id": 25, "prompt": "What is France's long-term interest rate in october 2025?", "vertical": "company" }
+{ "id": 26, "prompt": "Get the top 10 runes by trading volume in the last 24h", "vertical": "crypto" }
+{ "id": 27, "prompt": "Search 10 last papers by Yann LeCun", "vertical": "company" }
+{ "id": 28, "prompt": "How many unique PEPE holders are there?", "vertical": "crypto" }
+{ "id": 29, "prompt": "Get the top 5 ordinals collections by 24h trading volume", "vertical": "crypto" }
+{ "id": 30, "prompt": "Get ordinals collection info for the symbol bitcoin-puppets", "vertical": "crypto" }
+{ "id": 31, "prompt": "Get the top holders of the bitcoin-puppets ordinals collection", "vertical": "crypto" }
+{ "id": 32, "prompt": "Show the organizational graph of Mistral AI (SIREN: 952418325)", "vertical": "company" }
+{ "id": 33, "prompt": "Find 5 papers on neural networks published this month", "vertical": "company" }
+{ "id": 34, "prompt": "Get ETH's circulating supply and trading volume", "vertical": "crypto" }
+{ "id": 35, "prompt": "What is the growth rate of construction permits in France?", "vertical": "company" }
+{ "id": 36, "prompt": "Get developer metrics for Ethereum over the last week", "vertical": "crypto" }
+{ "id": 37, "prompt": "Compare market cap of Solana vs Avalanche over the last month", "vertical": "crypto" }
+{ "id": 38, "prompt": "Show the funding rate for ETH perpetuals", "vertical": "crypto" }
+{ "id": 39, "prompt": "Find open source maintainers of popular Python ML libraries with more than 10k stars", "vertical": "company" }
+{ "id": 40, "prompt": "Search the last 10 transactions for vitalik.eth", "vertical": "crypto" }
+{ "id": 41, "prompt": "Show the portfolio for wallet vitalik.eth", "vertical": "crypto" }
+{ "id": 42, "prompt": "Summarize Tesla's Q4 2023 earnings call", "vertical": "company" }
+{ "id": 43, "prompt": "Get ticker info for AAPL", "vertical": "company" }
+{ "id": 44, "prompt": "Retrieve website url of 5 Tech companies in San Francisco with 100-200 employees", "vertical": "company" }
+{ "id": 45, "prompt": "Search for SaaS companies in New York with revenue over $1M", "vertical": "company" }
+{ "id": 46, "prompt": "Find 5 biotech companies in Boston area using React technology", "vertical": "company" }
+{ "id": 47, "prompt": "Get the top 5 token holders of USDC on Base", "vertical": "crypto" }
+{ "id": 48, "prompt": "Get OpenSea's daily volume for the last 30 days", "vertical": "crypto" }
+{ "id": 49, "prompt": "Get transaction history for address bc1q7ydrtdn8z62xhslqyqtyt38mm4e2c4h3mxjkug", "vertical": "crypto" }
+{ "id": 50, "prompt": "Get rune price for rune ID 865193:4006", "vertical": "crypto" }
+{ "id": 51, "prompt": "Find the COO linkedin profile of Apollo.io", "vertical": "company" }
+{ "id": 52, "prompt": "Find the top 10 engineers working at companies behind the latest patents related to RAG", "vertical": "company" }
+{ "id": 53, "prompt": "Get recent hiring news from microsoft.com", "vertical": "company" }
+{ "id": 54, "prompt": "Who is the CEO of kirha.ai?", "vertical": "company" }
+{ "id": 55, "prompt": "Find public tenders in technology sector in Spain above 5m euros", "vertical": "company" }
+{ "id": 56, "prompt": "Find the 5 latest IPO filings on the SEC this month", "vertical": "company" }
+{ "id": 57, "prompt": "Summarize Microsoft's latest 10-Q filing", "vertical": "company" }
+{ "id": 58, "prompt": "List the last 5 Form 10-K filings from Amazon", "vertical": "company" }
+{ "id": 59, "prompt": "Get the top 20 wallets by $ARB holdings", "vertical": "crypto" }
+{ "id": 60, "prompt": "Find 10 recent patents filed by Google in natural language processing", "vertical": "company" }
+{ "id": 61, "prompt": "Show the BTC dominance trend over the last 30 days", "vertical": "crypto" }
+{ "id": 62, "prompt": "Find the CTO linkedin profile of Datadog", "vertical": "company" }
+{ "id": 63, "prompt": "Search for aerospace companies in Toulouse with revenue over 10M euros", "vertical": "company" }
+{ "id": 64, "prompt": "Get trending lending contracts sorted by gas used", "vertical": "crypto" }
+{ "id": 65, "prompt": "Get historical weather for Paris from 2025-09-20 to 2025-09-25", "vertical": "insurance" }
+{ "id": 66, "prompt": "Get ticker info for TSLA", "vertical": "company" }
+{ "id": 67, "prompt": "Summarize Microsoft's latest 10-Q filing", "vertical": "company" }
+{ "id": 68, "prompt": "Get last 5 earning call transcript from Apple", "vertical": "company" }
+{ "id": 69, "prompt": "Get the funding rate for BTC perpetuals on Binance", "vertical": "crypto" }
+{ "id": 70, "prompt": "How many active users on Blur?", "vertical": "crypto" }
+{ "id": 71, "prompt": "What's the current price of Bitcoin?", "vertical": "crypto" }
+{ "id": 72, "prompt": "Show me the current portfolio of the largest USDC holder on Base", "vertical": "crypto" }
+{ "id": 73, "prompt": "Get history of all funding rounds for Anthropic", "vertical": "company" }
+{ "id": 74, "prompt": "Show me ETH price history for the last 30 days", "vertical": "crypto" }
+{ "id": 75, "prompt": "Get info of the top trending coin today", "vertical": "crypto" }
+{ "id": 76, "prompt": "What's the annual revenue of Figma?", "vertical": "company" }
+{ "id": 77, "prompt": "Show me the OHLC data for SOL over the past 7 days", "vertical": "crypto" }
+{ "id": 78, "prompt": "Compare company funding rounds between Anthropic and OpenAI", "vertical": "company" }
+{ "id": 79, "prompt": "What is the AVAX all-time high", "vertical": "crypto" }
+{ "id": 80, "prompt": "What's the current weather in New York?", "vertical": "insurance" }
+{ "id": 81, "prompt": "Find the headquarters address of Microsoft?", "vertical": "company" }
+{ "id": 82, "prompt": "Show me the top crypto gainers in the last 24 hours", "vertical": "crypto" }
+{ "id": 83, "prompt": "What's the wind speed in Chicago right now?", "vertical": "insurance" }
+{ "id": 84, "prompt": "What industry is Palantir in?", "vertical": "company" }
+{ "id": 85, "prompt": "What's the correlation between BTC and ETH prices this month?", "vertical": "crypto" }
+{ "id": 86, "prompt": "Get the founding date of SpaceX", "vertical": "company" }
+{ "id": 87, "prompt": "Show me the top 5 losers in the last 24h", "vertical": "crypto" }
+{ "id": 88, "prompt": "What was the temperature in Denver yesterday?", "vertical": "insurance" }
+{ "id": 89, "prompt": "Get the current portfolio of the 3 largest LINK holders on Polygon chain", "vertical": "crypto" }
+{ "id": 90, "prompt": "Find the contract address for LINK on Ethereum", "vertical": "crypto" }
+{ "id": 91, "prompt": "What's the air quality in Beijing?", "vertical": "insurance" }
+{ "id": 92, "prompt": "Get the latest quarterly report for Amazon", "vertical": "company" }
+{ "id": 93, "prompt": "What's the market cap of NVIDIA?", "vertical": "company" }
+{ "id": 94, "prompt": "What's the humidity forecast for Los Angeles next Sunday?", "vertical": "insurance" }
+{ "id": 95, "prompt": "What's the atmospheric pressure in Seattle?", "vertical": "insurance" }
+{ "id": 96, "prompt": "Get the next 5-day forecast for Tokyo", "vertical": "insurance" }
+{ "id": 97, "prompt": "Compare rainfall between London and Paris this week", "vertical": "insurance" }
+{ "id": 98, "prompt": "Give company details of the leading cyber security company in the US?", "vertical": "company" }
+{ "id": 99, "prompt": "Is flight FR2516 delayed on December 10th, 2025? What were the weather conditions at the departure airport?", "vertical": "insurance" }
+{ "id": 100, "prompt": "Get crypto portfolio of 0xd8da6bf26964af9d7eed9e03e53415d37aa96045", "vertical": "crypto" }

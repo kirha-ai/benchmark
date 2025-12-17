@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+body {
+  @apply m-0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --background: rgb(252, 252, 252);
+  --foreground: rgb(30, 41, 59);
+  --card: rgb(255, 255, 255);
+  --card-foreground: rgb(30, 41, 59);
+  --popover: rgb(255, 255, 255);
+  --popover-foreground: rgb(30, 41, 59);
+  --primary: rgb(79, 70, 229);
+  --primary-foreground: rgb(255, 255, 255);
+  --secondary: rgb(237, 237, 237);
+  --secondary-foreground: rgb(55, 65, 81);
+  --muted: rgb(242, 242, 243);
+  --muted-foreground: rgb(107, 114, 128);
+  --accent: rgb(240, 240, 240);
+  --accent-foreground: rgb(55, 65, 81);
+  --destructive: rgb(239, 68, 68);
+  --destructive-foreground: rgb(255, 255, 255);
+  --border: rgb(219, 219, 219);
+  --input: rgb(219, 219, 219);
+  --ring: rgb(79, 70, 229);
+  --chart-1: rgba(0, 152, 34, 1);
+  --chart-2: rgb(79, 70, 229);
+  --chart-3: rgb(67, 56, 202);
+  --chart-4: rgb(55, 48, 163);
+  --chart-5: rgb(49, 46, 129);
+  --sidebar: rgb(245, 245, 245);
+  --sidebar-foreground: rgb(30, 41, 59);
+  --sidebar-primary: rgb(99, 102, 241);
+  --sidebar-primary-foreground: rgb(255, 255, 255);
+  --sidebar-accent: rgb(232, 232, 232);
+  --sidebar-accent-foreground: rgb(55, 65, 81);
+  --sidebar-border: rgb(209, 213, 219);
+  --sidebar-ring: rgb(99, 102, 241);
+  --font-sans: Inter, sans-serif;
+  --font-serif: Merriweather, serif;
+  --font-mono: JetBrains Mono, monospace;
+  --radius: 0.5rem;
+  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+}
+
+.dark {
+  --background: rgb(16, 16, 18);
+  --foreground: rgb(226, 232, 240);
+  --card: rgb(23, 24, 27);
+  --card-foreground: rgb(226, 232, 240);
+  --popover: rgb(24, 24, 27);
+  --popover-foreground: rgb(226, 232, 240);
+  --primary: rgb(94, 106, 210);
+  --primary-foreground: rgb(255, 254, 255);
+  --secondary: rgb(30, 31, 34);
+  --secondary-foreground: rgb(209, 213, 219);
+  --muted: rgb(26, 27, 30);
+  --muted-foreground: rgb(156, 163, 175);
+  --accent: rgb(34, 36, 42);
+  --accent-foreground: rgb(209, 213, 219);
+  --destructive: rgb(239, 68, 68);
+  --destructive-foreground: rgb(24, 24, 27);
+  --border: rgb(35, 37, 42);
+  --input: rgb(35, 37, 42);
+  --ring: rgb(94, 106, 210);
+  --chart-1: rgba(0, 152, 34, 1);
+  --chart-2: rgb(99, 102, 241);
+  --chart-3: rgb(79, 70, 229);
+  --chart-4: rgb(67, 56, 202);
+  --chart-5: rgb(55, 48, 163);
+  --sidebar: rgb(9, 9, 9);
+  --sidebar-foreground: rgb(226, 232, 240);
+  --sidebar-primary: rgb(94, 106, 210);
+  --sidebar-primary-foreground: rgb(16, 16, 18);
+  --sidebar-accent: rgb(30, 31, 34);
+  --sidebar-accent-foreground: rgb(209, 213, 219);
+  --sidebar-border: rgb(35, 37, 42);
+  --sidebar-ring: rgb(94, 106, 210);
+  --font-sans: Inter, sans-serif;
+  --font-serif: Merriweather, serif;
+  --font-mono: JetBrains Mono, monospace;
+  --radius: 0.5rem;
+  --shadow-2xs: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.05);
+  --shadow-xs: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.05);
+  --shadow-sm: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.1), 0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
+  --shadow: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.1), 0px 1px 2px -2px hsl(0 0% 10.1961% / 0.1);
+  --shadow-md: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.1), 0px 2px 4px -2px hsl(0 0% 10.1961% / 0.1);
+  --shadow-lg: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.1), 0px 4px 6px -2px hsl(0 0% 10.1961% / 0.1);
+  --shadow-xl: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.1), 0px 8px 10px -2px hsl(0 0% 10.1961% / 0.1);
+  --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 10.1961% / 0.25);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "kirha-benchmark",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "cd app && bun install && cd ../cli && bun install",
+    "eval": "cd cli && bun run eval",
+    "judge": "cd cli && bun run judge",
+    "app:dev": "cd app && bun run dev"
+  }
+}

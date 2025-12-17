@@ -1,0 +1,7 @@
+node_modules
+.env
+.vscode
+.idea
+app/public/benchmark-results.json
+bun.lock
+bun.lockb
