@@ -29,8 +29,9 @@ export function Methodology() {
           on 5 criteria (0-100) and determines a winner based on the total score.
         </p>
         <p>
-          <a href="https://huggingface.co/learn/cookbook/en/llm_judge" target="_blank">**A common best practice with LLM-as-a-Judge is to cross-reference scores against human evaluation and aim for a high correlation**</a>.
-          For this v1 we took a lighter approach: we asked Claude to review all results alongside their judge scores and flag inconsistencies. Read the <a href="https://github.com/kirha-ai/benchmark/blob/main/data/results/claude-review.md" target="_blank">**full report**</a>.
+          A common best practice with LLM-as-a-Judge is to <a href="https://huggingface.co/learn/cookbook/en/llm_judge" target="_blank" className="underline font-bold">cross-reference scores against human evaluation and aim for a high correlation</a>.<br />
+          For this v1 we took a lighter approach: we asked Claude to review all results alongside their judge scores and flag inconsistencies.<br />
+          Read the <a href="https://github.com/kirha-ai/benchmark/blob/main/data/results/claude-review.md" target="_blank" className="underline font-bold">full report</a>.
         </p>
       </div>
 

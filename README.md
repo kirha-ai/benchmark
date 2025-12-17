@@ -152,7 +152,7 @@ The judge prompt identifies responses as "Kirha" vs "Websearch" rather than usin
 
 - **Why not blind?** Full blinding would require manually annotating each prompt with source-agnostic evaluation criteria. For 100 prompts across different domains, this represents significant manual effort.
 - **Why it's acceptable:** The quality gap between responses is typically objective and measurable—timestamps, data freshness, and completeness are verifiable regardless of source identity. The cross-review from Claude code confirmed ~96% of decisions are defensible based purely on response quality.
-- **v2 improvement:** We plan to implement blinded evaluation in a future version, with manually curated evaluation guidelines per prompt category.
+- **v2 improvement:** We plan to implement blinded evaluation with human annotation to validate judge decisions and measure correlation with human judgment.
 
 ## License
 
