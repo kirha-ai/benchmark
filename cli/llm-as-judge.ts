@@ -1,11 +1,15 @@
-import { GoogleGenAI } from '@google/genai';
-import { RESULTS_DIR, parseTargetIds, loadExistingResults, type RunnerResult } from './runners/index';
-import { join } from 'node:path';
+import { GoogleGenAI } from "@google/genai";
+import {
+  RESULTS_DIR,
+  parseTargetIds,
+  loadExistingResults,
+} from "./runners/index";
+import { join } from "node:path";
 
 const GEMINI_API_KEY = Bun.env.GEMINI_API_KEY;
 
 if (!GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY environment variable is required');
+  throw new Error("GEMINI_API_KEY environment variable is required");
 }
 
 const genai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
@@ -24,19 +28,19 @@ interface JudgeResult {
   prompt: string;
   exa: JudgeScore;
   kirha: JudgeScore;
-  winner: 'exa' | 'kirha' | 'tie';
+  winner: "exa" | "kirha" | "tie";
   lastRunDate: string;
 }
 
 function formatDate(date: Date): string {
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 }
 
 async function loadExistingJudgeResults(): Promise<Map<number, JudgeResult>> {
-  const filepath = join(RESULTS_DIR, 'judge-result.jsonl');
+  const filepath = join(RESULTS_DIR, "judge-result.jsonl");
   const file = Bun.file(filepath);
 
   if (!(await file.exists())) {
@@ -46,7 +50,7 @@ async function loadExistingJudgeResults(): Promise<Map<number, JudgeResult>> {
   const content = await file.text();
   const results = new Map<number, JudgeResult>();
 
-  for (const line of content.trim().split('\n')) {
+  for (const line of content.trim().split("\n")) {
     if (line.trim()) {
       const result = JSON.parse(line) as JudgeResult;
       results.set(result.id, result);
@@ -56,8 +60,16 @@ async function loadExistingJudgeResults(): Promise<Map<number, JudgeResult>> {
   return results;
 }
 
-async function evaluateResults(prompt: string, exaResult: string, kirhaResult: string): Promise<{ exa: JudgeScore; kirha: JudgeScore; winner: 'exa' | 'kirha' | 'tie' }> {
-  const today = new Date().toISOString().split('T')[0];
+async function evaluateResults(
+  prompt: string,
+  exaResult: string,
+  kirhaResult: string,
+): Promise<{
+  exa: JudgeScore;
+  kirha: JudgeScore;
+  winner: "exa" | "kirha" | "tie";
+}> {
+  const today = new Date().toISOString().split("T")[0];
   const judgePrompt = `You are an impartial judge evaluating two search API responses for the same query.
 
   # Context
@@ -174,12 +186,16 @@ async function evaluateResults(prompt: string, exaResult: string, kirhaResult: s
   }`;
 
   const response = await genai.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: "gemini-2.5-flash",
     contents: judgePrompt,
-    config: { temperature: 0.2, thinkingConfig: { thinkingBudget: -1 }, maxOutputTokens: 50_000 },
+    config: {
+      temperature: 0.2,
+      thinkingConfig: { thinkingBudget: -1 },
+      maxOutputTokens: 50_000,
+    },
   });
 
-  const text = response.text ?? '{}';
+  const text = response.text ?? "{}";
 
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {
@@ -188,35 +204,53 @@ async function evaluateResults(prompt: string, exaResult: string, kirhaResult: s
 
   const result = JSON.parse(jsonMatch[0]);
 
-  const exaTotal = result.exa.relevance + result.exa.accuracy + result.exa.completeness + result.exa.freshness + result.exa.actionability;
-  const kirhaTotal = result.kirha.relevance + result.kirha.accuracy + result.kirha.completeness + result.kirha.freshness + result.kirha.actionability;
+  const exaTotal =
+    result.exa.relevance +
+    result.exa.accuracy +
+    result.exa.completeness +
+    result.exa.freshness +
+    result.exa.actionability;
+  const kirhaTotal =
+    result.kirha.relevance +
+    result.kirha.accuracy +
+    result.kirha.completeness +
+    result.kirha.freshness +
+    result.kirha.actionability;
 
   if (exaTotal > kirhaTotal) {
-    result.winner = 'exa';
+    result.winner = "exa";
   } else if (kirhaTotal > exaTotal) {
-    result.winner = 'kirha';
+    result.winner = "kirha";
   } else {
-    result.winner = 'tie';
+    result.winner = "tie";
   }
 
   return result;
 }
 
 function calculateTotalScore(score: JudgeScore): number {
-  return score.relevance + score.accuracy + score.completeness + score.freshness + score.actionability;
+  return (
+    score.relevance +
+    score.accuracy +
+    score.completeness +
+    score.freshness +
+    score.actionability
+  );
 }
 
-export async function runJudge(targetIds?: Set<number> | null): Promise<string> {
-  console.log('Loading results...');
+export async function runJudge(
+  targetIds?: Set<number> | null,
+): Promise<string> {
+  console.log("Loading results...");
 
-  const exaResults = await loadExistingResults('exa-result.jsonl');
-  const kirhaResults = await loadExistingResults('kirha-result.jsonl');
+  const exaResults = await loadExistingResults("exa-result.jsonl");
+  const kirhaResults = await loadExistingResults("kirha-result.jsonl");
 
   const existingJudgeResults = await loadExistingJudgeResults();
 
   let allIds: Set<number>;
   if (targetIds && targetIds.size > 0) {
-    console.log(`Running Judge for IDs: ${[...targetIds].join(', ')}\n`);
+    console.log(`Running Judge for IDs: ${[...targetIds].join(", ")}\n`);
     allIds = targetIds;
   } else {
     allIds = new Set([...exaResults.keys(), ...kirhaResults.keys()]);
@@ -228,15 +262,15 @@ export async function runJudge(targetIds?: Set<number> | null): Promise<string> 
 
     if (!exaResult && !kirhaResult) continue;
 
-    const prompt = exaResult?.prompt || kirhaResult?.prompt || '';
+    const prompt = exaResult?.prompt || kirhaResult?.prompt || "";
 
     console.log(`Judging prompt ${id}: ${prompt.slice(0, 50)}...`);
 
     try {
       const scores = await evaluateResults(
         prompt,
-        exaResult?.result || '',
-        kirhaResult?.result || ''
+        exaResult?.result || "",
+        kirhaResult?.result || "",
       );
 
       existingJudgeResults.set(id, {
@@ -251,28 +285,41 @@ export async function runJudge(targetIds?: Set<number> | null): Promise<string> 
       const exaTotal = calculateTotalScore(scores.exa);
       const kirhaTotal = calculateTotalScore(scores.kirha);
 
-      console.log(`  Exa: ${exaTotal}/500 | Kirha: ${kirhaTotal}/500 | Winner: ${scores.winner}`);
+      console.log(
+        `  Exa: ${exaTotal}/500 | Kirha: ${kirhaTotal}/500 | Winner: ${scores.winner}`,
+      );
     } catch (error) {
       console.error(`  ✗ Error judging prompt ${id}:`, error);
     }
   }
 
-  const outputPath = join(RESULTS_DIR, 'judge-result.jsonl');
-  const sortedResults = [...existingJudgeResults.values()].sort((a, b) => a.id - b.id);
-  const jsonlContent = sortedResults.map(r => JSON.stringify(r)).join('\n');
-  await Bun.write(outputPath, jsonlContent + '\n');
+  const outputPath = join(RESULTS_DIR, "judge-result.jsonl");
+  const sortedResults = [...existingJudgeResults.values()].sort(
+    (a, b) => a.id - b.id,
+  );
+  const jsonlContent = sortedResults.map((r) => JSON.stringify(r)).join("\n");
+  await Bun.write(outputPath, `${jsonlContent}\n`);
 
-  console.log('\n=== SUMMARY ===');
-  const resultsToSummarize = targetIds && targetIds.size > 0
-    ? sortedResults.filter(r => targetIds.has(r.id))
-    : sortedResults;
+  console.log("\n=== SUMMARY ===");
+  const resultsToSummarize =
+    targetIds && targetIds.size > 0
+      ? sortedResults.filter((r) => targetIds.has(r.id))
+      : sortedResults;
 
-  const exaWins = resultsToSummarize.filter(r => r.winner === 'exa').length;
-  const kirhaWins = resultsToSummarize.filter(r => r.winner === 'kirha').length;
-  const ties = resultsToSummarize.filter(r => r.winner === 'tie').length;
+  const exaWins = resultsToSummarize.filter((r) => r.winner === "exa").length;
+  const kirhaWins = resultsToSummarize.filter(
+    (r) => r.winner === "kirha",
+  ).length;
+  const ties = resultsToSummarize.filter((r) => r.winner === "tie").length;
 
-  const avgExaScore = resultsToSummarize.reduce((sum, r) => sum + calculateTotalScore(r.exa), 0) / resultsToSummarize.length;
-  const avgKirhaScore = resultsToSummarize.reduce((sum, r) => sum + calculateTotalScore(r.kirha), 0) / resultsToSummarize.length;
+  const avgExaScore =
+    resultsToSummarize.reduce((sum, r) => sum + calculateTotalScore(r.exa), 0) /
+    resultsToSummarize.length;
+  const avgKirhaScore =
+    resultsToSummarize.reduce(
+      (sum, r) => sum + calculateTotalScore(r.kirha),
+      0,
+    ) / resultsToSummarize.length;
 
   console.log(`Exa wins: ${exaWins}`);
   console.log(`Kirha wins: ${kirhaWins}`);
@@ -288,11 +335,11 @@ export async function runJudge(targetIds?: Set<number> | null): Promise<string> 
 if (import.meta.main) {
   const targetIds = parseTargetIds();
   runJudge(targetIds)
-    .then(outputPath => {
+    .then((outputPath) => {
       console.log(`Done! Output: ${outputPath}`);
     })
-    .catch(error => {
-      console.error('Failed to run judge:', error);
+    .catch((error) => {
+      console.error("Failed to run judge:", error);
       process.exit(1);
     });
 }

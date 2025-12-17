@@ -3,20 +3,20 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 
 function formatRawData(data: string): string {
   try {
-    const parsed = JSON.parse(data)
-    return JSON.stringify(parsed, null, 2)
+    const parsed = JSON.parse(data);
+    return JSON.stringify(parsed, null, 2);
   } catch {
-    return data
+    return data;
   }
 }
 
 interface RawDataModalProps {
-  data: { title: string; data: string } | null
-  onClose: () => void
+  data: { title: string; data: string } | null;
+  onClose: () => void;
 }
 
 export function RawDataModal({ data, onClose }: RawDataModalProps) {
@@ -24,7 +24,9 @@ export function RawDataModal({ data, onClose }: RawDataModalProps) {
     <Dialog open={!!data} onOpenChange={onClose}>
       <DialogContent className="w-[calc(100%-2rem)] sm:w-full sm:max-w-[600px] max-h-[80vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle className="text-sm sm:text-base">{data?.title}</DialogTitle>
+          <DialogTitle className="text-sm sm:text-base">
+            {data?.title}
+          </DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-y-auto">
           <pre className="whitespace-pre-wrap font-mono text-[10px] sm:text-xs leading-relaxed bg-muted/50 p-3 sm:p-4 rounded">
@@ -33,5 +35,5 @@ export function RawDataModal({ data, onClose }: RawDataModalProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

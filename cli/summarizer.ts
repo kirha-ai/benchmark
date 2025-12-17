@@ -1,14 +1,17 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI } from "@google/genai";
 
 const GEMINI_API_KEY = Bun.env.GEMINI_API_KEY;
 
 if (!GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY environment variable is required');
+  throw new Error("GEMINI_API_KEY environment variable is required");
 }
 
 const genai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
-export async function summarizeResults(query: string, rawResults: string): Promise<string> {
+export async function summarizeResults(
+  query: string,
+  rawResults: string,
+): Promise<string> {
   const prompt = `You are a research assistant. Analyze these web search results and extract ONLY the specific data that answers the query.
 
 # Context
@@ -32,10 +35,14 @@ Instructions:
 - Be concise but detailed - max 7000 words`;
 
   const response = await genai.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: "gemini-2.5-flash",
     contents: prompt,
-    config: { temperature: 0.4, thinkingConfig: { thinkingBudget: -1 }, maxOutputTokens: 100_000 },
+    config: {
+      temperature: 0.4,
+      thinkingConfig: { thinkingBudget: -1 },
+      maxOutputTokens: 100_000,
+    },
   });
 
-  return response.text ?? '';
+  return response.text ?? "";
 }

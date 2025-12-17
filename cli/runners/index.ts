@@ -1,9 +1,9 @@
-import { mkdir } from 'node:fs/promises';
-import { join } from 'node:path';
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
 
-export const DATA_DIR = join(import.meta.dir, '..', '..', 'data');
-export const RESULTS_DIR = join(DATA_DIR, 'results');
-export const PROMPTS_FILE = join(DATA_DIR, 'prompts.jsonl');
+export const DATA_DIR = join(import.meta.dir, "..", "..", "data");
+export const RESULTS_DIR = join(DATA_DIR, "results");
+export const PROMPTS_FILE = join(DATA_DIR, "prompts.jsonl");
 
 export interface Prompt {
   id: number;
@@ -29,13 +29,15 @@ export function parseTargetIds(): Set<number> | null {
   if (!idsArg) return null;
 
   const ids = new Set<number>();
-  const parts = idsArg.split(',');
+  const parts = idsArg.split(",");
 
   for (const part of parts) {
     const trimmed = part.trim();
-    if (trimmed.includes('-')) {
+    if (trimmed.includes("-")) {
       // Range: "1-5"
-      const [start, end] = trimmed.split('-').map(n => parseInt(n.trim(), 10));
+      const [start, end] = trimmed
+        .split("-")
+        .map((n) => parseInt(n.trim(), 10));
       for (let i = start; i <= end; i++) {
         ids.add(i);
       }
@@ -47,18 +49,20 @@ export function parseTargetIds(): Set<number> | null {
   return ids;
 }
 
-export async function loadPrompts(targetIds?: Set<number> | null): Promise<Prompt[]> {
+export async function loadPrompts(
+  targetIds?: Set<number> | null,
+): Promise<Prompt[]> {
   const file = Bun.file(PROMPTS_FILE);
   const content = await file.text();
 
   const prompts = content
     .trim()
-    .split('\n')
-    .filter(line => line.trim())
-    .map(line => JSON.parse(line) as Prompt);
+    .split("\n")
+    .filter((line) => line.trim())
+    .map((line) => JSON.parse(line) as Prompt);
 
   if (targetIds && targetIds.size > 0) {
-    return prompts.filter(p => targetIds.has(p.id));
+    return prompts.filter((p) => targetIds.has(p.id));
   }
 
   return prompts;
@@ -68,7 +72,9 @@ export async function ensureResultsDir(): Promise<void> {
   await mkdir(RESULTS_DIR, { recursive: true });
 }
 
-export async function loadExistingResults(filename: string): Promise<Map<number, RunnerResult>> {
+export async function loadExistingResults(
+  filename: string,
+): Promise<Map<number, RunnerResult>> {
   const filepath = join(RESULTS_DIR, filename);
   const file = Bun.file(filepath);
 
@@ -79,7 +85,7 @@ export async function loadExistingResults(filename: string): Promise<Map<number,
   const content = await file.text();
   const results = new Map<number, RunnerResult>();
 
-  for (const line of content.trim().split('\n')) {
+  for (const line of content.trim().split("\n")) {
     if (line.trim()) {
       const result = JSON.parse(line) as RunnerResult;
       results.set(result.id, result);
@@ -89,7 +95,11 @@ export async function loadExistingResults(filename: string): Promise<Map<number,
   return results;
 }
 
-export async function writeResults(filename: string, results: RunnerResult[], targetIds?: Set<number> | null): Promise<string> {
+export async function writeResults(
+  filename: string,
+  results: RunnerResult[],
+  targetIds?: Set<number> | null,
+): Promise<string> {
   await ensureResultsDir();
   const outputPath = join(RESULTS_DIR, filename);
 
@@ -102,17 +112,17 @@ export async function writeResults(filename: string, results: RunnerResult[], ta
 
     const jsonlContent = [...existing.values()]
       .sort((a, b) => a.id - b.id)
-      .map(r => JSON.stringify(r))
-      .join('\n');
+      .map((r) => JSON.stringify(r))
+      .join("\n");
 
-    await Bun.write(outputPath, jsonlContent + '\n');
+    await Bun.write(outputPath, `${jsonlContent}\n`);
   } else {
     const jsonlContent = results
       .sort((a, b) => a.id - b.id)
-      .map(r => JSON.stringify(r))
-      .join('\n');
+      .map((r) => JSON.stringify(r))
+      .join("\n");
 
-    await Bun.write(outputPath, jsonlContent + '\n');
+    await Bun.write(outputPath, `${jsonlContent}\n`);
   }
 
   return outputPath;
