@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import { Separator } from '@/components/ui/separator'
-import { loadResults, type BenchmarkResult } from '@/lib/loadResults'
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { loadResults, type BenchmarkResult } from "@/lib/loadResults";
 import {
   Header,
   Footer,
@@ -12,28 +12,33 @@ import {
   ResultsTable,
   ResultDetailModal,
   RawDataModal,
-} from '@/components/benchmark'
+} from "@/components/benchmark";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   loader: async () => {
-    return await loadResults()
+    return await loadResults();
   },
   component: BenchmarkPage,
-})
+});
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 10;
 
 function BenchmarkPage() {
-  const { results, summary } = Route.useLoaderData()
-  const [selectedResult, setSelectedResult] = useState<BenchmarkResult | null>(null)
-  const [rawDataModal, setRawDataModal] = useState<{ title: string; data: string } | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
+  const { results, summary } = Route.useLoaderData();
+  const [selectedResult, setSelectedResult] = useState<BenchmarkResult | null>(
+    null,
+  );
+  const [rawDataModal, setRawDataModal] = useState<{
+    title: string;
+    data: string;
+  } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
   const paginatedResults = results.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  )
+    currentPage * ITEMS_PER_PAGE,
+  );
 
   return (
     <div className="min-h-screen bg-linear-to-b from-primary/10 to-background">
@@ -45,7 +50,8 @@ function BenchmarkPage() {
             Domain-Specific Data Enrichment Benchmark
           </h1>
           <p className="text-base font-medium text-muted-foreground max-w-2xl">
-            Comparing Kirha's domain-specific knowledge against standard web search.
+            Comparing Kirha's domain-specific knowledge against standard web
+            search.
           </p>
         </div>
 
@@ -85,10 +91,7 @@ function BenchmarkPage() {
         onShowRawData={(title, data) => setRawDataModal({ title, data })}
       />
 
-      <RawDataModal
-        data={rawDataModal}
-        onClose={() => setRawDataModal(null)}
-      />
+      <RawDataModal data={rawDataModal} onClose={() => setRawDataModal(null)} />
     </div>
-  )
+  );
 }
