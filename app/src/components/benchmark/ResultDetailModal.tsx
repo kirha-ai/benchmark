@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -20,8 +21,14 @@ import {
   PolarRadiusAxis,
   Radar,
 } from "recharts";
-import { Code } from "lucide-react";
-import type { BenchmarkResult, SourceResult } from "@/lib/loadResults";
+import { Code, Loader2 } from "lucide-react";
+import {
+  loadResultDetail,
+  type BenchmarkResult,
+  type ResultDetail,
+  type SourceResult,
+  type SourceDetail,
+} from "@/lib/loadResults";
 
 const categories = [
   "relevance",
@@ -47,15 +54,16 @@ const sourceConfig = {
   },
 } as const;
 
-// Internal: Score Card with Radar Chart
 function SourceScoreCard({
   source,
   data,
+  detail,
   isWinner,
   chartData,
 }: {
   source: Source;
   data: SourceResult;
+  detail: SourceDetail | null;
   isWinner: boolean;
   chartData: { category: string; kirha: number; websearch: number }[];
 }) {
@@ -105,11 +113,17 @@ function SourceScoreCard({
         </RadarChart>
       </ChartContainer>
 
-      <p
-        className="text-xs sm:text-sm text-muted-foreground mt-2 [&>i]:bg-green-500/20 [&>i]:text-green-700 dark:[&>i]:text-green-400 [&>i]:not-italic [&>i]:px-1 [&>i]:rounded [&>b]:bg-red-500/20 [&>b]:text-red-700 dark:[&>b]:text-red-400 [&>b]:font-normal [&>b]:px-1 [&>b]:rounded"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is verified
-        dangerouslySetInnerHTML={{ __html: data.feedback }}
-      />
+      {detail ? (
+        <p
+          className="text-xs sm:text-sm text-muted-foreground mt-2 [&>i]:bg-green-500/20 [&>i]:text-green-700 dark:[&>i]:text-green-400 [&>i]:not-italic [&>i]:px-1 [&>i]:rounded [&>b]:bg-red-500/20 [&>b]:text-red-700 dark:[&>b]:text-red-400 [&>b]:font-normal [&>b]:px-1 [&>b]:rounded"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is verified
+          dangerouslySetInnerHTML={{ __html: detail.feedback }}
+        />
+      ) : (
+        <div className="h-12 flex items-center justify-center">
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+        </div>
+      )}
     </div>
   );
 }
@@ -118,10 +132,12 @@ function SourceScoreCard({
 function SourceOutputCard({
   source,
   data,
+  detail,
   onShowRawData,
 }: {
   source: Source;
   data: SourceResult;
+  detail: SourceDetail | null;
   onShowRawData: () => void;
 }) {
   const config = sourceConfig[source];
@@ -132,28 +148,32 @@ function SourceOutputCard({
         <h4 className="font-medium text-xs sm:text-sm">
           {config.label} Output
         </h4>
-        {data.rawData && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-6 text-xs cursor-pointer"
-            onClick={onShowRawData}
-          >
-            <Code className="h-3 w-3 mr-1" />
-            Raw data - <b>{data.tokens.toLocaleString()} tokens used</b>
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-6 text-xs cursor-pointer"
+          onClick={onShowRawData}
+          disabled={!detail}
+        >
+          <Code className="h-3 w-3 mr-1" />
+          Raw data - <b>{data.tokens.toLocaleString()} tokens</b>
+        </Button>
       </div>
       <div className="bg-muted/30 rounded-lg p-2 sm:p-3 h-[150px] sm:h-[200px] overflow-auto">
-        <pre className="whitespace-pre-wrap font-mono text-[10px] sm:text-xs leading-relaxed">
-          {data.result}
-        </pre>
+        {detail ? (
+          <pre className="whitespace-pre-wrap font-mono text-[10px] sm:text-xs leading-relaxed">
+            {detail.result}
+          </pre>
+        ) : (
+          <div className="h-full flex items-center justify-center">
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-// Main component
 interface ResultDetailModalProps {
   result: BenchmarkResult | null;
   onClose: () => void;
@@ -165,6 +185,15 @@ export function ResultDetailModal({
   onClose,
   onShowRawData,
 }: ResultDetailModalProps) {
+  const [detail, setDetail] = useState<ResultDetail | null>(null);
+
+  useEffect(() => {
+    if (result) {
+      setDetail(null);
+      loadResultDetail(result.id).then(setDetail);
+    }
+  }, [result]);
+
   if (!result) return null;
 
   const chartData = categories.map((cat) => ({
@@ -172,6 +201,12 @@ export function ResultDetailModal({
     kirha: result.kirha[cat],
     websearch: result.websearch[cat],
   }));
+
+  const handleShowRawData = (source: Source) => {
+    if (!detail) return;
+    const config = sourceConfig[source];
+    onShowRawData(config.rawDataTitle, detail[source].rawData);
+  };
 
   return (
     <Dialog open={!!result} onOpenChange={onClose}>
@@ -203,12 +238,14 @@ export function ResultDetailModal({
             <SourceScoreCard
               source="kirha"
               data={result.kirha}
+              detail={detail?.kirha ?? null}
               isWinner={result.winner === "kirha"}
               chartData={chartData}
             />
             <SourceScoreCard
               source="websearch"
               data={result.websearch}
+              detail={detail?.websearch ?? null}
               isWinner={result.winner === "websearch"}
               chartData={chartData}
             />
@@ -221,22 +258,14 @@ export function ResultDetailModal({
             <SourceOutputCard
               source="kirha"
               data={result.kirha}
-              onShowRawData={() =>
-                onShowRawData(
-                  sourceConfig.kirha.rawDataTitle,
-                  result.kirha.rawData,
-                )
-              }
+              detail={detail?.kirha ?? null}
+              onShowRawData={() => handleShowRawData("kirha")}
             />
             <SourceOutputCard
               source="websearch"
               data={result.websearch}
-              onShowRawData={() =>
-                onShowRawData(
-                  sourceConfig.websearch.rawDataTitle,
-                  result.websearch.rawData,
-                )
-              }
+              detail={detail?.websearch ?? null}
+              onShowRawData={() => handleShowRawData("websearch")}
             />
           </div>
         </div>

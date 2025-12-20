@@ -9,10 +9,13 @@ export type SourceResult = {
   freshness: number;
   actionability: number;
   score: number;
-  feedback: string;
-  result: string;
-  rawData: string;
   tokens: number;
+};
+
+export type SourceDetail = {
+  result: string;
+  feedback: string;
+  rawData: string;
 };
 
 export type BenchmarkResult = {
@@ -46,10 +49,21 @@ export type BenchmarkData = {
   summary: BenchmarkSummary;
 };
 
-export const loadResults = createServerFn({ method: "GET" }).handler(
-  async (): Promise<BenchmarkData> => {
-    const resultsPath = join(process.cwd(), "public", "benchmark-results.json");
-    const data: BenchmarkData = JSON.parse(readFileSync(resultsPath, "utf-8"));
-    return data;
-  },
+export type ResultDetail = {
+  kirha: SourceDetail;
+  websearch: SourceDetail;
+};
+
+const resultsPath = join(process.cwd(), "public", "results", "global.json");
+const cachedResults: BenchmarkData = JSON.parse(
+  readFileSync(resultsPath, "utf-8"),
 );
+
+export const loadResults = createServerFn({ method: "GET" }).handler(
+  (): BenchmarkData => cachedResults,
+);
+
+export async function loadResultDetail(id: number): Promise<ResultDetail> {
+  const response = await fetch(`/results/${id}.json`);
+  return response.json();
+}
