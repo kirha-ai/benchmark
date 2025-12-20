@@ -1,6 +1,6 @@
 import { encode } from "gpt-tokenizer";
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -8,6 +8,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const DATA_DIR = join(__dirname, "..", "..", "data");
 const RESULTS_DIR = join(DATA_DIR, "results");
+const PUBLIC_DIR = join(__dirname, "..", "public");
+const RESULTS_OUTPUT_DIR = join(PUBLIC_DIR, "results");
 
 const categories = [
   "relevance",
@@ -178,8 +180,53 @@ const chartData = categories.map((cat) => ({
   websearch: aggregateScores.websearch[cat],
 }));
 
+if (!existsSync(RESULTS_OUTPUT_DIR)) {
+  mkdirSync(RESULTS_OUTPUT_DIR, { recursive: true });
+}
+
+const lightResults = results.map((result) => {
+  const detailFile = join(RESULTS_OUTPUT_DIR, `${result.id}.json`);
+  writeFileSync(
+    detailFile,
+    JSON.stringify({
+      kirha: {
+        result: result.kirha.result,
+        feedback: result.kirha.feedback,
+        rawData: result.kirha.rawData,
+      },
+      websearch: {
+        result: result.websearch.result,
+        feedback: result.websearch.feedback,
+        rawData: result.websearch.rawData,
+      },
+    }),
+  );
+
+  return {
+    ...result,
+    kirha: {
+      relevance: result.kirha.relevance,
+      accuracy: result.kirha.accuracy,
+      completeness: result.kirha.completeness,
+      freshness: result.kirha.freshness,
+      actionability: result.kirha.actionability,
+      score: result.kirha.score,
+      tokens: result.kirha.tokens,
+    },
+    websearch: {
+      relevance: result.websearch.relevance,
+      accuracy: result.websearch.accuracy,
+      completeness: result.websearch.completeness,
+      freshness: result.websearch.freshness,
+      actionability: result.websearch.actionability,
+      score: result.websearch.score,
+      tokens: result.websearch.tokens,
+    },
+  };
+});
+
 const output = {
-  results,
+  results: lightResults,
   summary: {
     totalTests: results.length,
     kirhaScore: aggregateScores.kirha.score,
@@ -191,12 +238,7 @@ const output = {
   },
 };
 
-const outputPath = join(
-  import.meta.dirname,
-  "..",
-  "public",
-  "benchmark-results.json",
-);
+const outputPath = join(RESULTS_OUTPUT_DIR, "global.json");
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
 
 console.log(`\n✓ Built ${results.length} results`);
@@ -206,3 +248,4 @@ console.log(`  Kirha tokens: ${totalKirhaTokens.toLocaleString()}`);
 console.log(`  Websearch tokens: ${totalWebsearchTokens.toLocaleString()}`);
 console.log(`  Token savings: ${tokenSavingsPercent}%`);
 console.log(`  Output: ${outputPath}`);
+console.log(`  Detail files: ${RESULTS_OUTPUT_DIR}/ (${results.length} files)`);
