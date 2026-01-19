@@ -33,9 +33,17 @@ function BenchmarkPage() {
     data: string;
   } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedVerticals, setSelectedVerticals] = useState<string[]>([]);
 
-  const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
-  const paginatedResults = results.slice(
+  const verticals = Array.from(new Set(results.map((r) => r.vertical))).sort();
+
+  const filteredResults =
+    selectedVerticals.length === 0
+      ? results
+      : results.filter((r) => selectedVerticals.includes(r.vertical));
+
+  const totalPages = Math.ceil(filteredResults.length / ITEMS_PER_PAGE);
+  const paginatedResults = filteredResults.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );
@@ -74,12 +82,18 @@ function BenchmarkPage() {
         <Separator className="mb-10 sm:mb-16" />
 
         <ResultsTable
-          results={results}
+          results={filteredResults}
           paginatedResults={paginatedResults}
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
           onSelectResult={setSelectedResult}
+          verticals={verticals}
+          selectedVerticals={selectedVerticals}
+          onVerticalChange={(verticals) => {
+            setSelectedVerticals(verticals);
+            setCurrentPage(1);
+          }}
         />
       </main>
 

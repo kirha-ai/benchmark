@@ -12,3 +12,4 @@ export { ScoreComparison } from "./ScoreComparison";
 export { ResultsTable } from "./ResultsTable";
 export { ResultDetailModal } from "./ResultDetailModal";
 export { RawDataModal } from "./RawDataModal";
+export { VerticalFilter } from "./VerticalFilter";
