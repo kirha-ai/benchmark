@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/pagination";
 import { Eye } from "lucide-react";
 import type { BenchmarkResult } from "@/lib/loadResults";
+import { VerticalFilter } from "./VerticalFilter";
 
 // Internal component: Winner Badge
 function WinnerBadge({
@@ -65,13 +66,13 @@ function ResultCard({
   return (
     <button
       type="button"
-      className="flex items-center gap-3 p-3 rounded-lg border bg-card cursor-pointer hover:bg-muted/50 active:bg-muted"
+      className="flex items-center gap-3 p-3 rounded-lg border bg-card cursor-pointer hover:bg-muted/50 active:bg-muted w-full"
       onClick={onClick}
     >
       <span className="text-xs text-muted-foreground w-5 shrink-0">
         #{result.id}
       </span>
-      <span className="text-sm flex-1 line-clamp-1 min-w-0">
+      <span className="text-sm flex-1 line-clamp-1 min-w-0 text-left">
         {result.prompt}
       </span>
       <div className="flex items-center gap-2 shrink-0">
@@ -186,6 +187,9 @@ interface ResultsTableProps {
   totalPages: number;
   onPageChange: (page: number) => void;
   onSelectResult: (result: BenchmarkResult) => void;
+  verticals: string[];
+  selectedVerticals: string[];
+  onVerticalChange: (verticals: string[]) => void;
 }
 
 export function ResultsTable({
@@ -195,18 +199,31 @@ export function ResultsTable({
   totalPages,
   onPageChange,
   onSelectResult,
+  verticals,
+  selectedVerticals,
+  onVerticalChange,
 }: ResultsTableProps) {
   return (
     <section className="mb-10 sm:mb-16">
-      <h2 className="text-lg sm:text-xl font-semibold mb-2">
-        Test Results{" "}
-        <span className="text-muted-foreground font-normal">
-          ({results.length})
-        </span>
-      </h2>
-      <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
-        Tap on a row to see detailed results and raw outputs
-      </p>
+      <div className="flex-col sm:flex sm:flex-row items-start justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-lg sm:text-xl font-semibold">
+            Test Results{" "}
+            <span className="text-muted-foreground font-normal">
+              ({results.length})
+            </span>
+          </h2>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-0">
+            Tap on a row to see detailed results and raw outputs
+          </p>
+        </div>
+        <VerticalFilter
+          options={verticals}
+          selected={selectedVerticals}
+          onChange={onVerticalChange}
+          placeholder="Filter by vertical..."
+        />
+      </div>
 
       {/* Mobile view */}
       <div className="sm:hidden space-y-2">
