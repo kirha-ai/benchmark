@@ -2,8 +2,8 @@
 FROM oven/bun:1-alpine AS builder
 WORKDIR /app
 
-COPY app/package.json app/bun.lock* ./
-RUN bun install --frozen-lockfile || bun install
+COPY app/package.json app/bun.lock ./
+RUN bun install --frozen-lockfile
 
 COPY app/ .
 
